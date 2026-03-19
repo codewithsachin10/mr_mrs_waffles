@@ -1,57 +1,46 @@
-# Mr. & Mrs. Waffle and Brownie - Digital Menu & Admin Platform
+# Mr. & Mrs. Waffle and Brownie - Digital Menu & Admin
 
-A premium, mobile-first digital menu and management platform for a boutique dessert shop.
+A premium, mobile-first digital menu website for a small dessert shop. Includes a real-time admin dashboard, image upload capabilities, and a QR Studio for generating table QR codes.
 
-## 🚀 Features
+## Features
+- **Client Menu**: Modern, appetizing chocolate theme with lazy-loading and category filtering.
+- **Admin Dashboard**: Real-time management of menu items, categories, and offers using Firebase.
+- **QR Studio**: Generate and download themed QR codes for your shop tables.
+- **Image Uploads**: Integrated with Firebase Storage for easy item photo management.
 
-### Customer-Facing Website
-- **Modern & Premium Design**: Dark chocolate and caramel gold theme.
-- **Mobile-First**: Optimized for QR-code scanning and mobile browsing.
-- **Sticky Navigation**: Smooth scrolling with category tabs.
-- **Live Search**: Find treats instantly.
-- **WhatsApp Ordering**: Direct connection for orders and pre-orders.
-- **Dynamic Content**: Powered by a robust database structure.
+## Tech Stack
+- **Framework**: Next.js 15
+- **Styling**: Tailwind CSS / Lucide Icons / Framer Motion
+- **Database/Auth**: Firebase Firestore & Auth
+- **Storage**: Firebase Storage
+- **QR Generation**: qrcode.react
 
-### Admin Dashboard
-- **Secure Access**: Protected management portal.
-- **Overview Stats**: Monitor active items, sold-out products, and performance.
-- **Category Management**: Create, edit, and reorder menu categories.
-- **Item Management**: Full CRUD for menu items with featured & availability toggles.
-- **Announcement Controls**: Update shop banners and contact info without touching code.
+## Deployment to Vercel
 
-## 🛠 Tech Stack
-- **Framework**: Next.js 15 (App Router)
-- **Styling**: Tailwind CSS
-- **Database/Auth**: Supabase
-- **Animations**: Framer Motion
-- **Icons**: Lucide React
+### 1. Push to GitHub
+If you haven't already:
+```bash
+git add .
+git commit -m "Ready for Vercel"
+git push origin main
+```
 
-## 📦 Getting Started
+### 2. Connect to Vercel
+1. Log in to [Vercel](https://vercel.com).
+2. Click **Add New** -> **Project**.
+3. Import your `mr_mrs_waffles` repository.
 
-1. **Install Dependencies**:
-   ```bash
-   npm install --cache ./npm-cache --legacy-peer-deps
-   ```
+### 3. Set Environment Variables
+In the Vercel dashboard, add the following environment variables (from `.env.example`):
+- `NEXT_PUBLIC_FIREBASE_API_KEY`
+- `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`
+- `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
+- `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`
+- `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
+- `NEXT_PUBLIC_FIREBASE_APP_ID`
 
-2. **Setup Supabase**:
-   - Create a project on [Supabase](https://supabase.com).
-   - Run the SQL schema from `src/lib/supabase.ts` comments (or use the provided types).
-   - Add your environment variables to `.env.local`:
-     ```
-     NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-     NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-     ```
+### 4. Deploy!
+Click **Deploy** and your premium digital menu will be live!
 
-3. **Run Locally**:
-   ```bash
-   npm run dev
-   ```
-
-## 🎨 Design Colors
-- Background: `#0C0908` (Deep Chocolate)
-- Accent: `#D4A373` (Caramel Gold)
-- Secondary: `#8B4513` (Waffle Brown)
-- Highlight: `#E63946` (Strawberry Pink)
-
-## 📄 License
-Mit License. Built for "Mr. & Mrs. Waffle and Brownie".
+---
+Developed with ❤️ for Mr. & Mrs. Waffle.
