@@ -11,8 +11,14 @@
 # misc
 .DS_Store
 *.pem
+
+# npm and build cache
 npm-cache/
+.npm-local/
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.eslintcache
 
 # local env files
 .env*.local

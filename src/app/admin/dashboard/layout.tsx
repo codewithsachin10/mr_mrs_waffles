@@ -14,7 +14,9 @@ import {
   X,
   Instagram,
   ChevronRight,
-  QrCode
+  QrCode,
+  Gamepad2,
+  Trophy
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -28,6 +30,8 @@ const sidebarLinks = [
   { label: "Weekly Offers", icon: Gift, href: "/admin/dashboard/offers" },
   { label: "Extra Add-ons", icon: PlusCircle, href: "/admin/dashboard/addons" },
   { label: "QR Studio", icon: QrCode, href: "/admin/dashboard/qr" },
+  { label: "Games", icon: Gamepad2, href: "/admin/dashboard/games" },
+  { label: "Rewards", icon: Trophy, href: "/admin/dashboard/rewards" },
   { label: "Shop Settings", icon: Settings, href: "/admin/dashboard/settings" },
 ];
 

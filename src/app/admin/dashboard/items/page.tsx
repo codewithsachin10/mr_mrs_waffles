@@ -25,7 +25,7 @@ import { formatCurrency, cn } from "@/lib/utils";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { db, storage } from "@/lib/firebase";
-import { collection, onSnapshot, doc, deleteDoc, addDoc, updateDoc, serverTimestamp } from "firebase/firestore";
+import { collection, onSnapshot, doc, deleteDoc, addDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { MenuItem, Category } from "@/lib/mockData";
 
@@ -58,7 +58,9 @@ export default function MenuItemManagement() {
     // Real-time listener
     const unsubscribeItems = onSnapshot(collection(db, "menu_items"), (snapshot) => {
       const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as MenuItem[];
-      setItems(data);
+      // Deduplicate by id (keep last occurrence)
+      const uniqueMap = new Map(data.map(item => [item.id, item]));
+      setItems(Array.from(uniqueMap.values()));
       setLoading(false);
     });
 
@@ -140,8 +142,11 @@ export default function MenuItemManagement() {
         updatedAt: serverTimestamp()
       };
 
+      // Strip 'id' from the data before writing to Firestore
+      const { id: _id, ...dataWithoutId } = finalData as any;
+
       if (isEditing && formData.id) {
-        await updateDoc(doc(db, "menu_items", formData.id), finalData);
+        await setDoc(doc(db, "menu_items", formData.id), dataWithoutId, { merge: true });
       } else {
         await addDoc(collection(db, "menu_items"), {
           ...finalData,

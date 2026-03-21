@@ -7,7 +7,6 @@ import CategoryTabs from "@/components/CategoryTabs";
 import SearchBar from "@/components/SearchBar";
 import MenuItemCard from "@/components/MenuItemCard";
 import AddOns from "@/components/AddOns";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import Footer from "@/components/Footer";
 import { menuItems as mockMenuItems, categories as mockCategories } from "@/lib/mockData";
 import { motion, AnimatePresence } from "framer-motion";
@@ -35,7 +34,18 @@ export default function Home() {
 
         const itemsSnapshot = await getDocs(collection(db, "menu_items"));
         const itemsData = itemsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as MenuItem[];
-        if (itemsData.length > 0) setMenuItems(itemsData);
+        if (itemsData.length > 0) {
+          // Merge with mock data to fill in missing images
+          const mockMap = new Map(mockMenuItems.map(m => [m.id, m]));
+          const merged = itemsData.map(item => {
+            const mock = mockMap.get(item.id);
+            return {
+              ...item,
+              image: item.image || mock?.image || "",
+            };
+          });
+          setMenuItems(merged);
+        }
       } catch (error) {
         console.error("Error fetching data from Firebase:", error);
       } finally {
@@ -280,7 +290,6 @@ export default function Home() {
         </AnimatePresence>
       </div>
       
-      <WhatsAppButton />
       <Footer />
     </main>
   );
