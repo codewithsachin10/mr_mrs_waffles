@@ -1,7 +1,7 @@
-import { initializeApp, getApps, getApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import { getStorage } from "firebase/storage";
+import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
+import { getFirestore, Firestore } from "firebase/firestore";
+import { getAuth, Auth } from "firebase/auth";
+import { getStorage, FirebaseStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,10 +12,26 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
 
-// Initialize Firebase
-const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
-const storage = getStorage(app);
+let app: FirebaseApp;
+let db: Firestore;
+let auth: Auth;
+let storage: FirebaseStorage;
 
-export { app, db, auth, storage };
+// Ensure we only initialize if keys are present (prevents build-time crashes)
+const isFirebaseReady = !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+
+if (isFirebaseReady) {
+  app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+  db = getFirestore(app);
+  auth = getAuth(app);
+  storage = getStorage(app);
+} else {
+  // If keys are missing, we provide a placeholder to avoid breaking the build
+  // but this will throw a runtime error if accessed on the client without keys
+  app = {} as FirebaseApp;
+  db = {} as Firestore;
+  auth = {} as Auth;
+  storage = {} as FirebaseStorage;
+}
+
+export { app, db, auth, storage, isFirebaseReady };
